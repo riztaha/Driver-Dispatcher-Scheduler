@@ -2,15 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import Calendar from "./Calendar";
 import * as serviceWorker from "./serviceWorker";
-
-import "bootstrap/dist/css/bootstrap.css";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <Calendar></Calendar>
   </React.StrictMode>,
   document.getElementById("root")
 );
