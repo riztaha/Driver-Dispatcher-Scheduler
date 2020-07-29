@@ -1,3 +1,5 @@
+// This code is from the React Calendar Timeline's example: https://codesandbox.io/s/q3rkx1478q?file=/CustomTimeline.jsx
+
 // import React, { Component } from "react";
 // import moment from "moment";
 
