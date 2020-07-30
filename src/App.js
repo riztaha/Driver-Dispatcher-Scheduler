@@ -5,12 +5,16 @@ import Nav from "./Nav";
 import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import { CSVLink } from "react-csv";
+import Background from "./background.jpg";
 
 let groups = [
-  { id: "1", title: "Michael Scott", bgColor: "#f9b87a" },
-  { id: "2", title: "Dwight Schrute", bgColor: "#f7d788" },
-  { id: "3", title: "Jim Halpert", bgColor: "#f7f38f" },
+  { id: "1", title: "Michael Scott", bgColor: "#f9b87a", tasks: [] },
+  { id: "2", title: "Dwight Schrute", bgColor: "#f7d788", tasks: [] },
+  { id: "3", title: "Jim Halpert", bgColor: "#f7f38f", tasks: [] },
 ];
+
+// this allows to then combine and display all the tasks as items.
+// let allTasks = [..., groups[0].tasks, groups[1].tasks, groups[2].tasks]]
 
 // Test Events
 let items = [
@@ -102,29 +106,36 @@ let items = [
 
 let csvData = [];
 
+const sectionStyle = {
+  width: "100%",
+  height: "400px",
+  opacity: "40%",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundImage: `url(${Background})`,
+  position: "absolute",
+};
+
 function App() {
   let [item, setItem] = useState(items);
+  // setGroup never updates because it is static, only 3 drivers for this app. Drivers do not need to be added/edited
   let [group, setGroup] = useState(groups);
   const setItemsWithCSV = (data) => {
-    csvData = [];
-    csvData.push([
-      "Driver",
-      "Type",
-      "Location",
-      "Description",
-      "Start Time",
-      "End Time",
-    ]);
+    csvData = [
+      ["Driver", "Type", "Location", "Description", "Start Time", "End Time"],
+    ];
+
     data.map((item) => {
-      let driverName = `${groups[parseInt(item.group) - 1].title}`;
+      let driverName = groups[parseInt(item.group) - 1].title;
       let type =
         item.bgColor === "#f17373"
           ? "Pickup"
           : item.bgColor === "#72ff72"
           ? "Dropoff"
           : "Other";
-      let starttime = moment(item.start, "x").format("DD MMM YYYY hh:mm a");
-      let endtime = moment(item.end, "x").format("DD MMM YYYY hh:mm a");
+      let startTime = moment(item.start, "x").format("DD MMM YYYY hh:mm a");
+      let endTime = moment(item.end, "x").format("DD MMM YYYY hh:mm a");
 
       csvData.push([
         driverName,
@@ -132,18 +143,23 @@ function App() {
         // item.title is location, item.tip is description
         item.title,
         item.tip,
-        starttime,
-        endtime,
+        startTime,
+        endTime,
       ]);
     });
     setItem(data);
   };
   return (
     <div className="App">
+      <section style={sectionStyle}></section>
       <Nav setItem={setItemsWithCSV} items={item} />
-      <Calendar setItems={setItemsWithCSV} items={item} groups={group} />
+      <div className="bg-white">
+        <Calendar setItems={setItemsWithCSV} items={item} groups={group} />
+      </div>
       <div>
         Directions:
+        <br></br>
+        Navigate Calendar: Scroll left/right or Zoom in/out.
         <br></br>
         Edit event duration/time/driver: click on the event and drag as desired.
         <br></br>
@@ -151,7 +167,14 @@ function App() {
       </div>
       <div className="row m-5 d-block">
         <b>
-          <CSVLink data={csvData}>Download Schedule as CSV</CSVLink>
+          <CSVLink
+            filename={"Driver-Schedule.csv"}
+            data={csvData}
+            className="btn btn-primary"
+            target="_blank"
+          >
+            Download Schedule as CSV
+          </CSVLink>
         </b>
       </div>
     </div>
