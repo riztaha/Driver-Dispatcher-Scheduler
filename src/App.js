@@ -8,12 +8,14 @@ import { CSVLink } from "react-csv";
 import Background from "./background.jpg";
 
 let groups = [
-  { id: "1", title: "Michael Scott", bgColor: "#f9b87a", tasks: [] },
-  { id: "2", title: "Dwight Schrute", bgColor: "#f7d788", tasks: [] },
-  { id: "3", title: "Jim Halpert", bgColor: "#f7f38f", tasks: [] },
+  { id: "1", title: "Michael Scott", bgColor: "#f9b87a" },
+  { id: "2", title: "Dwight Schrute", bgColor: "#f7d788" },
+  { id: "3", title: "Jim Halpert", bgColor: "#f7f38f" },
 ];
 
-// this allows to then combine and display all the tasks as items.
+// to_do:
+// adding tasks: [] to each group obj
+//  this allows to then combine and display all the tasks related to group
 // let items = [..., groups[0].tasks, groups[1].tasks, groups[2].tasks]]
 // then when rendering, pass groups.tasks instead of items
 
@@ -124,7 +126,7 @@ function App() {
   // setGroup never updates because it is static, only 3 drivers for this app. Drivers do not need to be added/edited
   let [group, setGroup] = useState(groups);
   let [dataDriver, setDataDriver] = useState(1);
-  let [dataDuration, setDataDuration] = useState(1);
+  let [dataDuration, setDataDuration] = useState(2);
 
   const addBooking = (data) => {
     setItem(data);
@@ -161,10 +163,10 @@ function App() {
     });
   };
 
-  const setItemsWithCSV = () => {
+  const setItemsWithCSV = (data) => {
     oneDriversSchedule_CSV = [["Time-Frame", "Pickup", "Drop-off", "Other"]];
-    console.log("DATA =====>", item);
-    let driverBookings = item.filter((booking) => {
+    console.log("DATA =====>", data);
+    let driverBookings = data.filter((booking) => {
       let driver = dataDriver;
       if (booking.group == driver) {
         return true;
@@ -172,29 +174,39 @@ function App() {
     });
     console.log("driverBookings=====>", driverBookings);
     console.log("data Duration form value ====>", dataDuration);
-    let timeframes = generateTimeframeBuckets(driverBookings);
-    console.log("timeframes ====>", timeframes);
+    let timeFrames = generateTimeframeBuckets(driverBookings);
+    console.log("time intervals ====>", timeFrames);
 
     //for each time bucket, check if a booking exists
     // if booking exists, for that time bucket, increment the type of booking
 
-    for (let index = 0; index < timeframes.length - 1; index++) {
-      const first = timeframes[index];
-      const second = timeframes[index + 1];
+    // Looping through time intervals
+    for (let index = 0; index < timeFrames.length - 1; index++) {
+      let first = moment(timeFrames[index], "DD/MM/YYYY");
+      let second = moment(timeFrames[index + 1], "DD/MM/YYYY");
+      if (timeFrames.length === 1) {
+        second = moment(timeFrames[0], "DD/MM/YYYY").add(dataDuration, "days");
+      }
+
+      console.log("first interval ===> :>> ", first);
+      console.log("second interval ===> :>> ", second);
 
       let bookingsForBucket = driverBookings.filter((booking) => {
-        if (booking.start >= first || booking.end <= second) {
+        if (booking.start >= first && booking.end <= second) {
           return true;
         }
       });
-      let obj = getTypesOfBookings(bookingsForBucket);
+      console.log("bookings within date ranges", bookingsForBucket);
+
+      let column = getTypesOfBookings(bookingsForBucket);
+      console.log("obj count per date range", column);
       let row = [
-        moment(first).format("DD MMM YYYY hh:mm a") +
+        moment(first).format("DD/MM/YYYY") +
           " - " +
-          moment(second).format("DD MMM YYYY hh:mm a"),
-        obj.pickUp,
-        obj.dropOff,
-        obj.other,
+          moment(second).format("DD/MM/YYYY"),
+        column.pickUp,
+        column.dropOff,
+        column.other,
       ];
       oneDriversSchedule_CSV.push(row);
     }
@@ -207,7 +219,7 @@ function App() {
     //   ? "Dropoff"
     //   : "Other";
 
-    var obj = {
+    const obj = {
       pickUp: 0,
       dropOff: 0,
       other: 0,
@@ -225,19 +237,50 @@ function App() {
   };
 
   const generateTimeframeBuckets = (driverBookings) => {
-    console.log(driverBookings);
     let startMoments = driverBookings.map((d) => moment(d.start));
+    console.log("startMoments :>> ", startMoments);
     let endMoments = driverBookings.map((d) => moment(d.end));
-    let earliestStartDate = moment.min(startMoments);
-    let latestEndDate = moment.max(endMoments);
-    let timeframes = [];
+    console.log("endMoments :>> ", endMoments);
 
-    timeframes.push(moment(earliestStartDate));
-    while (earliestStartDate < latestEndDate) {
-      earliestStartDate = earliestStartDate.add(dataDuration, "days");
-      timeframes.push(earliestStartDate);
+    let earliestStartDate = moment.min(startMoments);
+    console.log("earliestStartDate :>> ", earliestStartDate);
+    let latestEndDate = moment.max(endMoments);
+    console.log("latestEndDate :>> ", latestEndDate);
+    // let timeFrames = [earliestStartDate];
+    let timeFrames = [];
+
+    // timeFrames.push(earliestStartDate);
+
+    let start = new Date(earliestStartDate);
+    let end = new Date(latestEndDate);
+    while (start < end) {
+      timeFrames.push(moment(start).format("DD-MM-YYYY"));
+      let newDate = start.setDate(start.getDate() + parseInt(dataDuration));
+      start = new Date(newDate);
+
+      // let tmp = earliestStartDate; //plus dataDuration
+      // timeFrames.push(tmp);
     }
-    return timeframes;
+    timeFrames.push(moment(start).format("DD-MM-YYYY"));
+
+    // while (earliestStartDate < latestEndDate) {
+    //   let tmp = moment(earliestStartDate).add(parseInt(dataDuration), "days");
+    //   console.log("tmp ====> ", tmp._d);
+    //   timeFrames.push(tmp);
+    //   // earliestStartDate = tmp;
+
+    //   // function addDays(date, days) {
+    //   //   const copy = new Date(Number(date));
+    //   //   copy.setDate(date + days);
+    //   //   return copy;
+    //   // }
+    //   // addDays(earliestStartDate, dataDuration);
+    //   // console.log(addDays(earliestStartDate, dataDuration));
+
+    //   console.log("number of timeFrames ====>", timeFrames.length);
+    // }
+    // timeFrames.push(latestEndDate);
+    return timeFrames;
   };
 
   // Rubber Duck -
