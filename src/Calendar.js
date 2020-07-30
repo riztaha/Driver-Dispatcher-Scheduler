@@ -26,20 +26,18 @@ function Calendar(props) {
   //   Handle moving an event, changing it's time or changing the driver it belongs to
   const handleItemMove = (itemId, dragTime, newGroupOrder) => {
     const { items, groups } = props;
-
     const group = groups[newGroupOrder];
 
-    props.setItems(
-      items.map((item) =>
-        item.id === itemId
-          ? Object.assign({}, item, {
-              start: moment(dragTime),
-              end: moment(dragTime + (item.end - item.start)),
-              group: group.id,
-            })
-          : item
-      )
+    let bookings = items.map((item) =>
+      item.id === itemId
+        ? Object.assign({}, item, {
+            start: moment(dragTime),
+            end: moment(dragTime + (item.end - item.start)),
+            group: group.id,
+          })
+        : item
     );
+    props.setItems(bookings);
 
     console.log("Moved", itemId, dragTime, newGroupOrder);
   };
