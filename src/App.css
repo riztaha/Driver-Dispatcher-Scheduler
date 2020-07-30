@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+.react-calendar-timeline {
+  padding-top: 43px
+}
+
+.bg-transparent {
+  padding-top: 45px
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
