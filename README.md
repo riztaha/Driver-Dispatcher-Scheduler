@@ -1,4 +1,11 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Visit the project at: https://driver-scheduler.herokuapp.com/
+
+Directions:
+Navigate Calendar: Scroll left/right, Zoom in/out, or Click Date.
+Edit Event Duration/Time/Driver: Click on Event and Drag as desired.
+Overwrite Event: Create a new event which overlaps the time/driver event.
+Additional Event Information: Double-click on the event.
+Delete Event: Right-Click on Event.
 
 ## Available Scripts
 
@@ -42,22 +49,6 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
 ### Deployment
 
