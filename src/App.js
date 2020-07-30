@@ -122,6 +122,7 @@ function App() {
   let [item, setItem] = useState(items);
   // setGroup never updates because it is static, only 3 drivers for this app. Drivers do not need to be added/edited
   let [group, setGroup] = useState(groups);
+
   const setItemsWithCSV = (data) => {
     csvData = [
       ["Driver", "Type", "Location", "Description", "Start Time", "End Time"],
@@ -129,6 +130,7 @@ function App() {
 
     data.map((item) => {
       let driverName = groups[parseInt(item.group) - 1].title;
+      // Getting type of event from color
       let type =
         item.bgColor === "#f17373"
           ? "Pickup"
@@ -150,6 +152,14 @@ function App() {
     });
     setItem(data);
   };
+
+  // Rubber Duck -
+  // Need a drop down for 2,4,7, etc days. User will choose a day, On change of the drop down,
+  // start the function again, create a function (in App.js) that will take cvsData, and play around with it
+  // Change row and heading in csvData according to day and driverName
+  // using find, filter etc, count the rows in data and count how many times a type
+  // occurs for the driver (driverName) selected.
+
   return (
     <div className="App">
       <section className="sectionStyle" style={sectionStyle}></section>
