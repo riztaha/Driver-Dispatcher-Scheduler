@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
-import { Navbar, Nav, Dropdown } from "react-bootstrap";
 import moment from "moment";
 
-function NavHead(props) {
+function EventBookingForm(props) {
   let [currentDriver, setCurrentDriver] = useState(1);
   let [type, setType] = useState(1);
   let [location, setLocation] = useState(1);
@@ -12,52 +11,55 @@ function NavHead(props) {
   let [endDate, setEndDate] = useState(1);
 
   return (
-    <Navbar bg="light" expand="lg">
-      <h1>Create Driver Schedule</h1>
-      <Navbar.Collapse id="basic-navbar-nav">
-        <form
-          style={{ display: "contents" }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            // why do we need to divide/multiply? why not just parse unix time?
-            let tempStart = moment(new Date(startDate));
-            let tempEnd = moment(new Date(endDate));
-            console.log(tempStart, tempEnd);
-            //   Error checking, making sure you cannot enter an end date after a start date.
-            if (tempStart >= tempEnd) {
-              alert("Start date & time should be before the end date time!");
-              return;
-            }
-            if (tempStart.isSame(tempEnd, "day") === false) {
-              alert("Time slot must be on same day!");
-              return;
-            }
-            let index = props.items[props.items.length - 1];
-            if (index) {
-              index = parseInt(props.items[props.items.length - 1].id) + 1;
-            } else {
-              index = 1;
-            }
-            let newItem = [
-              ...props.items,
-              {
-                id: index,
-                group: currentDriver,
-                title: location,
-                tip: description,
-                start: tempStart,
-                end: tempEnd,
+    <div class="bg-transparent mx-auto text-center">
+      <h1 class="text-weight-bold">Create Driver Schedule</h1>
+      <form
+        class="container-fluid"
+        onSubmit={(e) => {
+          e.preventDefault();
+          // why do we need to divide/multiply? why not just parse unix time?
+          let tempStart = moment(new Date(startDate));
+          let tempEnd = moment(new Date(endDate));
+          console.log(tempStart, tempEnd);
+          //   Error checking, making sure you cannot enter an end date after a start date.
+          if (tempStart >= tempEnd) {
+            alert("Start date & time should be before the end date time!");
+            return;
+          }
+          if (tempStart.isSame(tempEnd, "day") === false) {
+            alert("Time slot must be on same day!");
+            return;
+          }
+          let index = props.items[props.items.length - 1];
+          if (index) {
+            index = parseInt(props.items[props.items.length - 1].id) + 1;
+          } else {
+            index = 1;
+          }
+          let newItem = [
+            ...props.items,
+            // for every new task, add it to the drivers array:
+            // something like this
+            // groups[currentDriverIndex].tasks.push(newItem);
+            {
+              id: index,
+              group: currentDriver,
+              title: location,
+              tip: description,
+              start: tempStart,
+              end: tempEnd,
 
-                bgColor:
-                  type === 1 ? "#f17373" : type === 2 ? "#72ff72" : "#9c9cff",
-              },
-            ];
-            console.log(newItem);
+              bgColor:
+                type === 1 ? "#f17373" : type === 2 ? "#72ff72" : "#9c9cff",
+            },
+          ];
+          console.log(newItem);
 
-            props.setItem(newItem);
-          }}
-        >
-          <div className="form-row">
+          props.setItem(newItem);
+        }}
+      >
+        <div class="row">
+          <div className="col-md-4">
             <div className="form-group col-md-12">
               <b>Driver*</b>
               <select
@@ -82,24 +84,9 @@ function NavHead(props) {
                 <option value="3">Other</option>
               </select>
             </div>
-            <div className="d-flex">
-              <label className="mx-2"> Pickup:</label>
-              <div
-                style={{ background: "#f17373", width: "50px", height: "20px" }}
-              />
-
-              <label className="mx-2">Dropoff:</label>
-              <div
-                style={{ background: "#72ff72", width: "50px", height: "20px" }}
-              />
-              <label className="mx-2">Other:</label>
-              <div
-                style={{ background: "#9c9cff", width: "50px", height: "20px" }}
-              />
-            </div>
           </div>
 
-          <div className="form-row ml-4">
+          <div className="col-md-4">
             <div className="form-group col-md-12">
               <b>Location*</b>
               <input
@@ -116,6 +103,8 @@ function NavHead(props) {
                 required={false}
               />
             </div>
+          </div>
+          <div className="col-md-4">
             <div className="form-group col-md-12">
               <b>Start Date & Time*</b>
               <input
@@ -135,17 +124,45 @@ function NavHead(props) {
               />
             </div>
           </div>
-          <div className="form-row ml-4">
-            <div className="form-group col-md-12">
-              <button className="btn btn-primary" type="submit">
-                Save
-              </button>
+        </div>
+        <div className="row mx-auto">
+          <div className="col-md-9">
+            <div className="d-flex">
+              <label className="mx-2"> Pickup:</label>
+              <div
+                style={{
+                  background: "#f17373",
+                  width: "50px",
+                  height: "20px",
+                }}
+              />
+              <label className="mx-2">Dropoff:</label>
+              <div
+                style={{
+                  background: "#72ff72",
+                  width: "50px",
+                  height: "20px",
+                }}
+              />
+              <label className="mx-2">Other:</label>
+              <div
+                style={{
+                  background: "#9c9cff",
+                  width: "50px",
+                  height: "20px",
+                }}
+              />
             </div>
           </div>
-        </form>{" "}
-      </Navbar.Collapse>
-    </Navbar>
+          <div className="col-md-2">
+            <button className="btn btn-primary btn-block" type="submit">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>{" "}
+    </div>
   );
 }
 
-export default NavHead;
+export default EventBookingForm;
