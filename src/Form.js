@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import moment from "moment";
+import checkDuplicate from "./HelperFunctions";
 
 function EventBookingForm(props) {
   let [currentDriver, setCurrentDriver] = useState(1);
@@ -11,10 +12,10 @@ function EventBookingForm(props) {
   let [endDate, setEndDate] = useState(1);
 
   return (
-    <div class="bg-transparent mx-auto text-center">
-      <h1 class="text-weight-bold">Create Driver Schedule</h1>
+    <div className="bg-transparent mx-auto text-center">
+      <h1 className="text-weight-bold">Create Driver Schedule</h1>
       <form
-        class="container-fluid"
+        className="container-fluid"
         onSubmit={(e) => {
           e.preventDefault();
           // why do we need to divide/multiply? why not just parse unix time?
@@ -26,6 +27,7 @@ function EventBookingForm(props) {
             alert("Start date & time should be before the end date time!");
             return;
           }
+          // Error checking, making sure event is within a 24 hour period (same day)
           if (tempStart.isSame(tempEnd, "day") === false) {
             alert("Time slot must be on same day!");
             return;
@@ -36,29 +38,37 @@ function EventBookingForm(props) {
           } else {
             index = 1;
           }
-          let newItem = [
-            ...props.items,
-            // for every new task, add it to the drivers array:
-            // something like this
-            // groups[currentDriverIndex].tasks.push(newItem);
-            {
-              id: index,
-              group: currentDriver,
-              title: location,
-              tip: description,
-              start: tempStart,
-              end: tempEnd,
+          if (
+            checkDuplicate(parseInt(currentDriver), tempStart, props.items) > 0
+          ) {
+            alert("This time slot already exists");
+            return;
+          } else {
+            console.log("props ====>", props);
+            let newItem = [
+              ...props.items,
+              // for every new task, add it to the drivers array:
+              // something like this
+              // groups[currentDriverIndex].tasks.push(newItem);
+              {
+                id: index,
+                group: parseInt(currentDriver),
+                title: location,
+                tip: description,
+                start: tempStart,
+                end: tempEnd,
 
-              bgColor:
-                type === 1 ? "#f17373" : type === 2 ? "#72ff72" : "#9c9cff",
-            },
-          ];
-          console.log(newItem);
-
-          props.setItem(newItem);
+                bgColor:
+                  type === 1 ? "#f17373" : type === 2 ? "#72ff72" : "#9c9cff",
+              },
+            ];
+            console.log("new Item", newItem);
+            // Error checking, check to make sure there is already no event booked during that period for the driver.
+            props.setItem(newItem);
+          }
         }}
       >
-        <div class="row">
+        <div className="row">
           <div className="col-md-4">
             <div className="form-group col-md-12">
               <b>Driver*</b>
