@@ -1,11 +1,11 @@
 ## Visit the project at: https://driver-scheduler.herokuapp.com/
 
-Directions:
-Navigate Calendar: Scroll left/right, Zoom in/out, or Click Date.
-Edit Event Duration/Time/Driver: Click on Event and Drag as desired.
-Overwrite Event: Create a new event which overlaps the time/driver event.
-Additional Event Information: Double-click on the event.
-Delete Event: Right-Click on Event.
+Directions: <br />
+Navigate Calendar: Scroll left/right, Zoom in/out, or Click Date.<br />
+Edit Event Duration/Time/Driver: Click on Event and Drag as desired.<br />
+Overwrite Event: Create a new event which overlaps the time/driver event.<br />
+Additional Event Information: Double-click on the event.<br />
+Delete Event: Right-Click on Event.<br />
 
 ## Available Scripts
 
