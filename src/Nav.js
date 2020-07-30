@@ -7,6 +7,7 @@ function NavHead(props) {
   let [currentDriver, setCurrentDriver] = useState(1);
   let [type, setType] = useState(1);
   let [location, setLocation] = useState(1);
+  let [description, setDescription] = useState(1);
   let [startDate, setStartDate] = useState(1);
   let [endDate, setEndDate] = useState(1);
 
@@ -43,8 +44,8 @@ function NavHead(props) {
                 id: index,
                 group: currentDriver,
                 title: location,
+                tip: description,
                 start: tempStart,
-
                 end: tempEnd,
 
                 bgColor:
@@ -58,7 +59,7 @@ function NavHead(props) {
         >
           <div className="form-row">
             <div className="form-group col-md-12">
-              <b>Driver</b>
+              <b>Driver*</b>
               <select
                 className="form-control"
                 onChange={(e) => setCurrentDriver(e.currentTarget.value)}
@@ -70,7 +71,7 @@ function NavHead(props) {
               </select>
             </div>
             <div className="form-group col-md-12">
-              <b>Type</b>
+              <b>Type*</b>
               <select
                 className="form-control"
                 onChange={(e) => setType(e.currentTarget.value)}
@@ -100,7 +101,7 @@ function NavHead(props) {
 
           <div className="form-row ml-4">
             <div className="form-group col-md-12">
-              <b>Location </b>
+              <b>Location*</b>
               <input
                 className="form-control"
                 onChange={(e) => setLocation(e.currentTarget.value)}
@@ -108,7 +109,15 @@ function NavHead(props) {
               />
             </div>
             <div className="form-group col-md-12">
-              <b>Start Date & Time </b>
+              <b>Description</b>
+              <input
+                className="form-control"
+                onChange={(e) => setDescription(e.currentTarget.value)}
+                required={false}
+              />
+            </div>
+            <div className="form-group col-md-12">
+              <b>Start Date & Time*</b>
               <input
                 className="form-control"
                 type="datetime-local"
@@ -117,7 +126,7 @@ function NavHead(props) {
               />
             </div>
             <div className="form-group col-md-12">
-              <b>End Date & Time </b>
+              <b>End Date & Time*</b>
               <input
                 className="form-control"
                 type="datetime-local"

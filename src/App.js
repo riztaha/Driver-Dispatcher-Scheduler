@@ -29,7 +29,14 @@ function App() {
   let [group, setGroup] = useState(groups);
   const setItemsWithCSV = (data) => {
     csvData = [];
-    csvData.push(["Driver", "Type", "Location", "Start Time", "End Time"]);
+    csvData.push([
+      "Driver",
+      "Type",
+      "Location",
+      "Description",
+      "Start Time",
+      "End Time",
+    ]);
     data.map((item) => {
       let driverName = `${groups[parseInt(item.group) - 1].title} ${
         groups[parseInt(item.group) - 1].rightTitle
@@ -43,7 +50,14 @@ function App() {
       let starttime = moment(item.start, "x").format("DD MMM YYYY hh:mm a");
       let endtime = moment(item.end, "x").format("DD MMM YYYY hh:mm a");
 
-      csvData.push([driverName, type, item.title, starttime, endtime]);
+      csvData.push([
+        driverName,
+        type,
+        item.title,
+        item.tip,
+        starttime,
+        endtime,
+      ]);
     });
     setItem(data);
   };
