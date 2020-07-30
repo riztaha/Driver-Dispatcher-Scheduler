@@ -65,6 +65,13 @@ function App() {
     <div className="App">
       <Nav setItem={setItemsWithCSV} items={item} />
       <Calendar setItems={setItemsWithCSV} items={item} groups={group} />
+      <div>
+        Directions:
+        <br></br>
+        Edit event duration/time/driver: click on the event and drag as desired.
+        <br></br>
+        Delete event: right click on the event.
+      </div>
       <div className="row m-5 d-block">
         <b>
           <CSVLink data={csvData}>Download Schedule as CSV</CSVLink>
