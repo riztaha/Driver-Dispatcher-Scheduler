@@ -24,6 +24,7 @@ function Calendar(props) {
     moment().startOf("day").add(1, "day").toDate()
   );
 
+  //   Handle moving an event, changing it's time or changing the driver it belongs to
   const handleItemMove = (itemId, dragTime, newGroupOrder) => {
     const { items, groups } = props;
 
@@ -44,6 +45,7 @@ function Calendar(props) {
     console.log("Moved", itemId, dragTime, newGroupOrder);
   };
 
+  //   Handling changing the duration of an event.
   const handleItemResize = (itemId, time, edge) => {
     const { items } = props;
 
@@ -61,6 +63,7 @@ function Calendar(props) {
     console.log("Resized", itemId, time, edge);
   };
 
+  //   Rendering the event
   const itemRenderer = ({
     item,
     timelineContext,
@@ -82,8 +85,26 @@ function Calendar(props) {
             backgroundColor: backgroundColor,
             color: item.color,
           },
-          onMouseDown: () => {
-            console.log("on item click", item);
+          onDoubleClick: () => {
+            console.log("on double click", item);
+          },
+          onContextMenu: () => {
+            //   Window will pop up confirming if you would like to delete the right-clicked timeslot
+            // Can clean up time
+            // Can add helper function to identify driver name based off item.group which is a number.
+            if (
+              window.confirm(
+                `Are you sure you want to delete this event?
+                Location: ${item.title},
+                Description: ${item.tip},
+                Time: ${item.start} - ${item.end}
+                `
+              )
+            ) {
+              props.setItems(props.items.filter((x) => x.id != item.id));
+            } else {
+              // Do nothing! Keep the time slot there if window.confirm is false
+            }
           },
         })}
       >
