@@ -6,10 +6,10 @@ import checkDuplicate from "./HelperFunctions";
 function EventBookingForm(props) {
   let [currentDriver, setCurrentDriver] = useState(1);
   let [type, setType] = useState(1);
-  let [location, setLocation] = useState(1);
-  let [description, setDescription] = useState(1);
-  let [startDate, setStartDate] = useState(1);
-  let [endDate, setEndDate] = useState(1);
+  let [location, setLocation] = useState("");
+  let [description, setDescription] = useState("");
+  let [startDate, setStartDate] = useState(null);
+  let [endDate, setEndDate] = useState(null);
 
   return (
     <div className="bg-transparent mx-auto text-center">
@@ -18,7 +18,6 @@ function EventBookingForm(props) {
         className="container-fluid"
         onSubmit={(e) => {
           e.preventDefault();
-          // why do we need to divide/multiply? why not just parse unix time?
           let tempStart = moment(new Date(startDate));
           let tempEnd = moment(new Date(endDate));
           console.log(tempStart, tempEnd);
@@ -32,26 +31,53 @@ function EventBookingForm(props) {
             alert("Time slot must be on same day!");
             return;
           }
+          // Taking index of last item in array, and incrementing it when adding new event
           let index = props.items[props.items.length - 1];
           if (index) {
             index = parseInt(props.items[props.items.length - 1].id) + 1;
           } else {
+            // in case the index is null
             index = 1;
           }
-          // Error checking for duplicate time slot for the driver.
-          // If the helper function returns true, it will return the timeslot id of the previous booking.
-          if (
-            checkDuplicate(parseInt(currentDriver), tempStart, props.items) > 0
-          ) {
+          // Error checking for duplicate event slot for the
+          // If the helper function returns true, it will return the timeslot id of the previous booking,
+          // otherwise it should return nothing
+          // TO-DO: add similar logic for when resizing/moving another event!
+          let currentItemID = checkDuplicate(
+            parseInt(currentDriver),
+            tempStart,
+            props.items
+          );
+          if (currentItemID > 0) {
             alert("This time slot already exists");
+            // Copying current event values and changing them if user wants to overwrite.
+            if (window.confirm("Would you like to overwrite the time slot?")) {
+              // looping through to find for item (called x) finding the id, whenever it gets the matching id it will return it
+              let currentItem = props.items.find((x) => x.id === currentItemID);
+              currentItem.group = parseInt(currentDriver);
+              currentItem.title = location;
+              currentItem.tip = description;
+              currentItem.start = tempStart;
+              currentItem.end = tempEnd;
+              currentItem.bgColor =
+                type == 1 ? "#f17373" : type == 2 ? "#72ff72" : "#9c9cff";
+
+              if (currentItem) {
+                let tempItems = [...props.items];
+                let tempItemIDIndex = tempItems.findIndex(
+                  (x) => x.id === currentItemID
+                );
+                tempItems[tempItemIDIndex] = currentItem;
+                props.setItem(tempItems);
+              }
+            } else {
+              // Do nothing!
+            }
             return;
           } else {
             console.log("props ====>", props);
             let newItem = [
               ...props.items,
-              // for every new task, add it to the drivers array:
-              // something like this
-              // groups[currentDriverIndex].tasks.push(newItem);
               {
                 id: index,
                 group: parseInt(currentDriver),
@@ -65,7 +91,6 @@ function EventBookingForm(props) {
               },
             ];
             console.log("new Item", newItem);
-            // Error checking, check to make sure there is already no event booked during that period for the driver.
             props.setItem(newItem);
           }
         }}
