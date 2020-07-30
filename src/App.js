@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Calendar from "./Calendar";
-import EventBookingForm from "./Form";
+import EventBookingForm from "./EventBookingForm";
 import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import { CSVLink } from "react-csv";
@@ -105,7 +105,8 @@ let items = [
   },
 ];
 
-let csvData = [];
+let allDriversSchedule_CSV = [];
+let oneDriversSchedule_CSV = [];
 
 const sectionStyle = {
   width: "100%",
@@ -122,9 +123,17 @@ function App() {
   let [item, setItem] = useState(items);
   // setGroup never updates because it is static, only 3 drivers for this app. Drivers do not need to be added/edited
   let [group, setGroup] = useState(groups);
+  let [dataDriver, setDataDriver] = useState(1);
+  let [dataDuration, setDataDuration] = useState(1);
 
-  const setItemsWithCSV = (data) => {
-    csvData = [
+  const addBooking = (data) => {
+    setItem(data);
+    prepareCSVExportData(data);
+    setItemsWithCSV(data);
+  };
+
+  const prepareCSVExportData = (data) => {
+    allDriversSchedule_CSV = [
       ["Driver", "Type", "Location", "Description", "Start Time", "End Time"],
     ];
 
@@ -140,7 +149,7 @@ function App() {
       let startTime = moment(item.start, "x").format("DD MMM YYYY hh:mm a");
       let endTime = moment(item.end, "x").format("DD MMM YYYY hh:mm a");
 
-      csvData.push([
+      allDriversSchedule_CSV.push([
         driverName,
         type,
         // item.title is location, item.tip is description
@@ -150,22 +159,107 @@ function App() {
         endTime,
       ]);
     });
-    setItem(data);
+  };
+
+  const setItemsWithCSV = () => {
+    oneDriversSchedule_CSV = [["Time-Frame", "Pickup", "Drop-off", "Other"]];
+    console.log("DATA =====>", item);
+    let driverBookings = item.filter((booking) => {
+      let driver = dataDriver;
+      if (booking.group == driver) {
+        return true;
+      }
+    });
+    console.log("driverBookings=====>", driverBookings);
+    console.log("data Duration form value ====>", dataDuration);
+    let timeframes = generateTimeframeBuckets(driverBookings);
+    console.log("timeframes ====>", timeframes);
+
+    //for each time bucket, check if a booking exists
+    // if booking exists, for that time bucket, increment the type of booking
+
+    for (let index = 0; index < timeframes.length - 1; index++) {
+      const first = timeframes[index];
+      const second = timeframes[index + 1];
+
+      let bookingsForBucket = driverBookings.filter((booking) => {
+        if (booking.start >= first || booking.end <= second) {
+          return true;
+        }
+      });
+      let obj = getTypesOfBookings(bookingsForBucket);
+      let row = [
+        moment(first).format("DD MMM YYYY hh:mm a") +
+          " - " +
+          moment(second).format("DD MMM YYYY hh:mm a"),
+        obj.pickUp,
+        obj.dropOff,
+        obj.other,
+      ];
+      oneDriversSchedule_CSV.push(row);
+    }
+  };
+
+  const getTypesOfBookings = (data) => {
+    // item.bgColor === "#f17373"
+    //   ? "Pickup"
+    //   : item.bgColor === "#72ff72"
+    //   ? "Dropoff"
+    //   : "Other";
+
+    var obj = {
+      pickUp: 0,
+      dropOff: 0,
+      other: 0,
+    };
+    data.forEach((booking) => {
+      if (booking.bgColor === "#f17373") {
+        obj.pickUp += 1;
+      } else if (booking.bgColor === "#72ff72") {
+        obj.dropOff += 1;
+      } else {
+        obj.other += 1;
+      }
+    });
+    return obj;
+  };
+
+  const generateTimeframeBuckets = (driverBookings) => {
+    console.log(driverBookings);
+    let startMoments = driverBookings.map((d) => moment(d.start));
+    let endMoments = driverBookings.map((d) => moment(d.end));
+    let earliestStartDate = moment.min(startMoments);
+    let latestEndDate = moment.max(endMoments);
+    let timeframes = [];
+
+    timeframes.push(moment(earliestStartDate));
+    while (earliestStartDate < latestEndDate) {
+      earliestStartDate = earliestStartDate.add(dataDuration, "days");
+      timeframes.push(earliestStartDate);
+    }
+    return timeframes;
   };
 
   // Rubber Duck -
   // Need a drop down for 2,4,7, etc days. User will choose a day, On change of the drop down,
-  // start the function again, create a function (in App.js) that will take cvsData, and play around with it
-  // Change row and heading in csvData according to day and driverName
+  // start the function again, create a function (in App.js) that will take allDriversSchedule_CSV, and play around with it to create oneDriversSchedule_CSV
+  // Change row and heading in oneDriversSchedule_CSV according to day and driverName
   // using find, filter etc, count the rows in data and count how many times a type
-  // occurs for the driver (driverName) selected.
+  // occurs for the driver (driverName) selected during the duration.
+
+  prepareCSVExportData(item);
+  setItemsWithCSV(item);
+
+  const driverIDToName = (dataDriver) => {
+    return groups[dataDriver - 1].title;
+  };
 
   return (
     <div className="App">
       <section className="sectionStyle" style={sectionStyle}></section>
-      <EventBookingForm setItem={setItemsWithCSV} items={item} />
+      <EventBookingForm setItem={addBooking} items={item} />
       <div className="bg-white">
-        <Calendar setItems={setItemsWithCSV} items={item} groups={group} />
+        <Calendar setItems={addBooking} items={item} groups={group} />
       </div>
       <div>
         Directions:
@@ -179,12 +273,55 @@ function App() {
       <div className="row m-5 d-block">
         <b>
           <CSVLink
-            filename={"Driver-Schedule.csv"}
-            data={csvData}
+            filename={"Drivers-Schedule-Raw.csv"}
+            data={allDriversSchedule_CSV}
             className="btn btn-primary"
             target="_blank"
           >
             Download Schedule as CSV
+          </CSVLink>
+        </b>
+      </div>
+      <div className="row m-5 d-block">
+        <div className="col-md-12 d-flex justify-content-center">
+          <div className="form-group col-md-4">
+            <b>Driver*</b>
+            <select
+              className="form-control"
+              onChange={(e) => setDataDriver(e.currentTarget.value)}
+              required={true}
+            >
+              <option value="1">Michael Scott</option>
+              <option value="2">Dwight Schrute</option>
+              <option value="3">Jim Halpert</option>
+            </select>
+          </div>
+          <div className="form-group col-md-4">
+            <b>Duration*</b>
+            <select
+              className="form-control"
+              onChange={(e) => setDataDuration(e.currentTarget.value)}
+              required={true}
+            >
+              <option value="2">2 days</option>
+              <option value="4">4 days</option>
+              <option value="7">7 days</option>
+              <option value="14">14 days</option>
+              <option value="28">28 days</option>
+            </select>
+          </div>
+        </div>
+        <b>
+          <CSVLink
+            // filename={"Driver-Schedule.csv"}
+            filename={`${driverIDToName(
+              dataDriver
+            )}_Report_${dataDuration}_days.csv`}
+            data={oneDriversSchedule_CSV}
+            className="btn btn-primary"
+            target="_blank"
+          >
+            Download Data as CSV
           </CSVLink>
         </b>
       </div>
