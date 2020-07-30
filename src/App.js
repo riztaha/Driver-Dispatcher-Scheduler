@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Calendar from "./Calendar";
-import Nav from "./Nav";
+import EventBookingForm from "./Form";
 import "react-calendar-timeline/lib/Timeline.css";
 import moment from "moment";
 import { CSVLink } from "react-csv";
@@ -152,7 +152,7 @@ function App() {
   return (
     <div className="App">
       <section style={sectionStyle}></section>
-      <Nav setItem={setItemsWithCSV} items={item} />
+      <EventBookingForm setItem={setItemsWithCSV} items={item} />
       <div className="bg-white">
         <Calendar setItems={setItemsWithCSV} items={item} groups={group} />
       </div>
