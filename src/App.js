@@ -172,10 +172,10 @@ function App() {
         return true;
       }
     });
-    console.log("driverBookings=====>", driverBookings);
-    console.log("data Duration form value ====>", dataDuration);
+    // console.log("driverBookings=====>", driverBookings);
+    // console.log("data Duration form value ====>", dataDuration);
     let timeFrames = generateTimeframeBuckets(driverBookings);
-    console.log("time intervals ====>", timeFrames);
+    // console.log("time intervals ====>", timeFrames);
 
     //for each time bucket, check if a booking exists
     // if booking exists, for that time bucket, increment the type of booking
@@ -188,18 +188,18 @@ function App() {
         second = moment(timeFrames[0], "DD/MM/YYYY").add(dataDuration, "days");
       }
 
-      console.log("first interval ===> :>> ", first);
-      console.log("second interval ===> :>> ", second);
+      // console.log("first interval ===> :>> ", first);
+      // console.log("second interval ===> :>> ", second);
 
       let bookingsForBucket = driverBookings.filter((booking) => {
         if (booking.start >= first && booking.end <= second) {
           return true;
         }
       });
-      console.log("bookings within date ranges", bookingsForBucket);
+      // console.log("bookings within date ranges", bookingsForBucket);
 
       let column = getTypesOfBookings(bookingsForBucket);
-      console.log("obj count per date range", column);
+      // console.log("obj count per date range", column);
       let row = [
         moment(first).format("DD/MM/YYYY") +
           " - " +
@@ -238,14 +238,14 @@ function App() {
 
   const generateTimeframeBuckets = (driverBookings) => {
     let startMoments = driverBookings.map((d) => moment(d.start));
-    console.log("startMoments :>> ", startMoments);
+    // console.log("startMoments :>> ", startMoments);
     let endMoments = driverBookings.map((d) => moment(d.end));
-    console.log("endMoments :>> ", endMoments);
+    // console.log("endMoments :>> ", endMoments);
 
     let earliestStartDate = moment.min(startMoments);
-    console.log("earliestStartDate :>> ", earliestStartDate);
+    // console.log("earliestStartDate :>> ", earliestStartDate);
     let latestEndDate = moment.max(endMoments);
-    console.log("latestEndDate :>> ", latestEndDate);
+    // console.log("latestEndDate :>> ", latestEndDate);
     // let timeFrames = [earliestStartDate];
     let timeFrames = [];
 
