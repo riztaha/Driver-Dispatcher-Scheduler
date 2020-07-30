@@ -34,8 +34,8 @@ function Calendar(props) {
       items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: dragTime,
-              end: dragTime + (item.end - item.start),
+              start: moment(dragTime),
+              end: moment(dragTime + (item.end - item.start)),
               group: group.id,
             })
           : item
@@ -53,8 +53,8 @@ function Calendar(props) {
       items.map((item) =>
         item.id === itemId
           ? Object.assign({}, item, {
-              start: edge === "left" ? time : item.start,
-              end: edge === "left" ? item.end : time,
+              start: edge === "left" ? moment(time) : moment(item.start),
+              end: edge === "left" ? moment(item.end) : moment(time),
             })
           : item
       )
