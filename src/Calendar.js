@@ -101,6 +101,7 @@ function Calendar(props) {
           },
           //   onContextMenu is right click functionality given from calendar library
           onContextMenu: () => {
+            console.log("on Right Click", item);
             //   Window will pop up confirming if you would like to delete the right-clicked timeslot
             // Can clean up time
             // Can add helper function to identify driver name based off item.group which is a number.

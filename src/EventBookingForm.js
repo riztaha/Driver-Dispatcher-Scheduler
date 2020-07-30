@@ -20,7 +20,7 @@ function EventBookingForm(props) {
           e.preventDefault();
           let tempStart = moment(new Date(startDate));
           let tempEnd = moment(new Date(endDate));
-          console.log(tempStart, tempEnd);
+          // console.log(tempStart, tempEnd);
           //   Error checking, making sure you cannot enter an end date after a start date.
           if (tempStart >= tempEnd) {
             alert("Start date & time should be before the end date time!");
@@ -75,7 +75,7 @@ function EventBookingForm(props) {
             }
             return;
           } else {
-            console.log("props ====>", props);
+            // console.log("props ====>", props);
             let newItem = [
               ...props.items,
               {
@@ -90,7 +90,7 @@ function EventBookingForm(props) {
                   type === 1 ? "#f17373" : type === 2 ? "#72ff72" : "#9c9cff",
               },
             ];
-            console.log("new Item", newItem);
+            console.log("New Event", newItem);
             props.setItem(newItem);
           }
         }}
