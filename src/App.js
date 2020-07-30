@@ -7,21 +7,99 @@ import moment from "moment";
 import { CSVLink } from "react-csv";
 
 let groups = [
-  { id: "1", title: "Michael", rightTitle: "Scott", bgColor: "#f9b87a" },
-  { id: "2", title: "Dwight", rightTitle: "Schrute", bgColor: "#f7d788" },
-  { id: "3", title: "Jim", rightTitle: "Halpert", bgColor: "#f7f38f" },
+  { id: "1", title: "Michael Scott", bgColor: "#f9b87a" },
+  { id: "2", title: "Dwight Schrute", bgColor: "#f7d788" },
+  { id: "3", title: "Jim Halpert", bgColor: "#f7f38f" },
 ];
 
+// Test Events
 let items = [
-  // {
-  //   bgColor: "#f17373",
-  //   end: 1595948760000,
-  //   group: 1,
-  //   id: "140",
-  //   start: 1595941440000,
-  //   title: "jhkj",
-  // },
+  // Test events for Michael
+  {
+    bgColor: "#f17373",
+    start: moment("28 JUL 2020 09:30"),
+    end: moment("28 JUL 2020 12:30"),
+    group: 1,
+    id: "140",
+    title: "Test Pickup",
+    tip: "This is just a test pickup for Michael",
+  },
+  {
+    bgColor: "#9c9cff",
+    start: moment("28 JUL 2020 13:30"),
+    end: moment("28 JUL 2020 14:30"),
+    group: 1,
+    id: "141",
+    title: "Break time!",
+    tip: "This is just a test break for Michael",
+  },
+  {
+    bgColor: "#72ff72",
+    start: moment("28 JUL 2020 15:30"),
+    end: moment("28 JUL 2020 19:30"),
+    group: 1,
+    id: "142",
+    title: "Test Dropoff",
+    tip: "This is just a test dropoff for Michael",
+  },
+  // Test events for Dwight
+  {
+    bgColor: "#f17373",
+    start: moment("29 JUL 2020 09:30"),
+    end: moment("29 JUL 2020 12:30"),
+    group: 2,
+    id: "143",
+    title: "Test Pickup",
+    tip: "This is just a test pickup for Dwight",
+  },
+  {
+    bgColor: "#9c9cff",
+    start: moment("29 JUL 2020 13:30"),
+    end: moment("29 JUL 2020 14:30"),
+    group: 2,
+    id: "144",
+    title: "Break time!",
+    tip: "This is just a test break for Dwight",
+  },
+  {
+    bgColor: "#72ff72",
+    start: moment("29 JUL 2020 15:30"),
+    end: moment("29 JUL 2020 19:30"),
+    group: 2,
+    id: "145",
+    title: "Test Dropoff",
+    tip: "This is just a test dropoff for Dwight",
+  },
+  // Test events for Jim
+  {
+    bgColor: "#f17373",
+    start: moment("30 JUL 2020 09:30"),
+    end: moment("30 JUL 2020 12:30"),
+    group: 3,
+    id: "146",
+    title: "Test Pickup",
+    tip: "This is just a test pickup for Jim",
+  },
+  {
+    bgColor: "#9c9cff",
+    start: moment("30 JUL 2020 13:30"),
+    end: moment("30 JUL 2020 14:30"),
+    group: 3,
+    id: "147",
+    title: "Break time!",
+    tip: "This is just a test break for Jim",
+  },
+  {
+    bgColor: "#72ff72",
+    start: moment("30 JUL 2020 15:30"),
+    end: moment("30 JUL 2020 19:30"),
+    group: 3,
+    id: "148",
+    title: "Test Dropoff",
+    tip: "This is just a test dropoff for Jim",
+  },
 ];
+
 let csvData = [];
 
 function App() {
@@ -38,9 +116,7 @@ function App() {
       "End Time",
     ]);
     data.map((item) => {
-      let driverName = `${groups[parseInt(item.group) - 1].title} ${
-        groups[parseInt(item.group) - 1].rightTitle
-      }`;
+      let driverName = `${groups[parseInt(item.group) - 1].title}`;
       let type =
         item.bgColor === "#f17373"
           ? "Pickup"
@@ -53,6 +129,7 @@ function App() {
       csvData.push([
         driverName,
         type,
+        // item.title is location, item.tip is description
         item.title,
         item.tip,
         starttime,
