@@ -38,6 +38,8 @@ function EventBookingForm(props) {
           } else {
             index = 1;
           }
+          // Error checking for duplicate time slot for the driver.
+          // If the helper function returns true, it will return the timeslot id of the previous booking.
           if (
             checkDuplicate(parseInt(currentDriver), tempStart, props.items) > 0
           ) {
