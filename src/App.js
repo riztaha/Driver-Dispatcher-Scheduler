@@ -14,7 +14,8 @@ let groups = [
 ];
 
 // this allows to then combine and display all the tasks as items.
-// let allTasks = [..., groups[0].tasks, groups[1].tasks, groups[2].tasks]]
+// let items = [..., groups[0].tasks, groups[1].tasks, groups[2].tasks]]
+// then when rendering, pass groups.tasks instead of items
 
 // Test Events
 let items = [
