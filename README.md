@@ -76,7 +76,7 @@ Implement an application view where a ​single​ dispatcher can manage the tas
 5. I should be able to ​delete​ tasks.
 6. Assume there are only 3 drivers and the timetable will be different for each driver. The
 dispatcher should be able to select a driver via a dropdown to view their timetable.
-Part B: Driver Task Spreadsheet Report
-1. As a dispatcher, I want to be able to download a .csv file outlining a specific driver’s tasks for a given division of time. The valid divisions for which I can generate a driver report are ​2,4,7,14, and 28 days​.
-2. If I were to generate a .csv for a certain driver with a selected time-range of 2 days, I would expect to see something like the following table if I were to open the .csv in a spreadsheet program.
+<br /> Part B: Driver Task Spreadsheet Report
+7. As a dispatcher, I want to be able to download a .csv file outlining a specific driver’s tasks for a given division of time. The valid divisions for which I can generate a driver report are ​2,4,7,14, and 28 days​.
+8. If I were to generate a .csv for a certain driver with a selected time-range of 2 days, I would expect to see something like the following table if I were to open the .csv in a spreadsheet program.
 This report would show that for the first 2 days of the “year” (remember, we don’t expect multiple years, just a 52 week period), the specified driver had 2 pickups, 2 drop-offs and 1 other task.
