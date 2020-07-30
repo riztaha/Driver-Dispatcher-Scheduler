@@ -64,6 +64,9 @@ function Calendar(props) {
 
   //   Rendering the event
   const itemRenderer = ({
+    //   instead of passing item, we will then pass all drivers info
+    //   then combine all drivers tasks into one object to display on calendar
+    //   this will make it easier to then get csv data for 2, 4, 7, etc days.
     item,
     timelineContext,
     itemContext,
@@ -76,13 +79,18 @@ function Calendar(props) {
         ? "red"
         : "yellow" //selectedBgColor
       : item.bgColor;
-    const borderColor = itemContext.resizing ? "red" : item.color;
+    const borderColor = itemContext.selected
+      ? itemContext.resizing
+        ? "red"
+        : "yellow"
+      : item.color;
 
     return (
       <div
         {...getItemProps({
           style: {
             backgroundColor: backgroundColor,
+            borderColor: borderColor,
             color: item.color,
           },
           onDoubleClick: () => {
@@ -106,7 +114,7 @@ function Calendar(props) {
                 `
               )
             ) {
-              props.setItems(props.items.filter((x) => x.id != item.id));
+              props.setItems(props.items.filter((x) => x.id !== item.id));
             } else {
               // Do nothing! Keep the time slot there if window.confirm is false
             }
