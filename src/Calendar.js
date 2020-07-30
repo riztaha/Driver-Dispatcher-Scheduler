@@ -6,7 +6,6 @@ import Timeline from "react-calendar-timeline";
 const keys = {
   groupIdKey: "id",
   groupTitleKey: "title",
-  groupRightTitleKey: "rightTitle",
   itemIdKey: "id",
   itemTitleKey: "title",
   itemDivTitleKey: "title",
@@ -78,6 +77,7 @@ function Calendar(props) {
         : "yellow" //selectedBgColor
       : item.bgColor;
     const borderColor = itemContext.resizing ? "red" : item.color;
+
     return (
       <div
         {...getItemProps({
@@ -88,6 +88,7 @@ function Calendar(props) {
           onDoubleClick: () => {
             console.log("on double click", item);
             alert(`
+                Event information:
                 Location: ${item.title},
                 Description: ${item.tip},
                 Time: ${item.start} - ${item.end}`);
