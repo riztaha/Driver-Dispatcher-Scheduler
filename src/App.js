@@ -151,7 +151,7 @@ function App() {
   };
   return (
     <div className="App">
-      <section style={sectionStyle}></section>
+      <section className="sectionStyle" style={sectionStyle}></section>
       <EventBookingForm setItem={setItemsWithCSV} items={item} />
       <div className="bg-white">
         <Calendar setItems={setItemsWithCSV} items={item} groups={group} />
@@ -159,11 +159,11 @@ function App() {
       <div>
         Directions:
         <br></br>
-        Navigate Calendar: Scroll left/right or Zoom in/out.
+        Navigate Calendar: Scroll left/right, Zoom in/out, or Click Date.
         <br></br>
-        Edit event duration/time/driver: click on the event and drag as desired.
+        Edit Event Duration/Time/Driver: Click on Event and Drag as desired.
         <br></br>
-        Delete event: right click on the event.
+        Delete Event: Right-Click on Event.
       </div>
       <div className="row m-5 d-block">
         <b>

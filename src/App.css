@@ -36,11 +36,26 @@
   padding-top: 45px
 }
 
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Media query is not working currently. Will come back after if time permits  */
+@media (max-width: 799px) {
+  .sectionStyle {
+    width: "100%";
+    height: "100%";
+    /* opacity: "40%"; */
+    background-position: "center";
+    background-size: "cover";
+    background-repeat: "repeat-y";
+    position: "absolute";
+    background-image: none;
   }
 }
