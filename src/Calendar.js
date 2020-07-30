@@ -101,6 +101,7 @@ function Calendar(props) {
                 Description: ${item.tip},
                 Time: ${item.start} - ${item.end}`);
           },
+          //   onContextMenu is right click functionality given from calendar library
           onContextMenu: () => {
             //   Window will pop up confirming if you would like to delete the right-clicked timeslot
             // Can clean up time
@@ -114,6 +115,8 @@ function Calendar(props) {
                 `
               )
             ) {
+              // resetting all the items, filtering for the id of the item which was right-clicked
+              // and removing it from the rest of the array
               props.setItems(props.items.filter((x) => x.id !== item.id));
             } else {
               // Do nothing! Keep the time slot there if window.confirm is false
