@@ -87,6 +87,10 @@ function Calendar(props) {
           },
           onDoubleClick: () => {
             console.log("on double click", item);
+            alert(`
+                Location: ${item.title},
+                Description: ${item.tip},
+                Time: ${item.start} - ${item.end}`);
           },
           onContextMenu: () => {
             //   Window will pop up confirming if you would like to delete the right-clicked timeslot
