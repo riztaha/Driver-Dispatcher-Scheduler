@@ -19,6 +19,8 @@ Minor Bug present: An event can currently be clashed with another item if it is 
 
 ## Screenshot
 !["Screenshot"](https://github.com/riztaha/Driver-Dispatcher-Scheduler/blob/master/public/Screen%20Shot.png)
+!["Excel"](https://github.com/riztaha/Driver-Dispatcher-Scheduler/blob/master/public/Screen%20Shot%20-%20Excel.png)
+
 
 ### `npm install` && `npm start`
 
