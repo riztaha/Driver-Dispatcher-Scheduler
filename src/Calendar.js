@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import moment from "moment";
-import { items } from "./App.js";
 
 import Timeline from "react-calendar-timeline";
 
@@ -77,9 +76,6 @@ function Calendar(props) {
 
   //   Rendering the event
   const itemRenderer = ({
-    //   instead of passing item, we will then pass all drivers info
-    //   then combine all drivers tasks into one object to display on calendar
-    //   this will make it easier to then get csv data for 2, 4, 7, etc days.
     item,
     timelineContext,
     itemContext,
@@ -128,26 +124,18 @@ function Calendar(props) {
                 (newDesc && newDesc.length > 0)
               ) {
                 onHandleItemEdit(item.id, newLoc, newDesc);
-
-                // if (item.id === itemContext.id) {
-                //   console.log("item id matches");
-                // This will remove the item
-                // props.setItems(props.items.filter((x) => x.id !== item.id));
-
                 itemContext["title"] = newLoc;
                 itemContext["tip"] = newDesc;
               } else {
+                // do nothing! keep the event the same!
+                return;
               }
-
-              // }
             }
           },
           //   onContextMenu is right click functionality given from calendar library
           onContextMenu: () => {
             console.log("on Right Click", item);
             //   Window will pop up confirming if you would like to delete the right-clicked timeslot
-            // Can clean up time
-            // Can add helper function to identify driver name based off item.group which is a number.
             if (
               window.confirm(
                 `WARNING: Are you sure you want to DELETE this event?
@@ -158,10 +146,11 @@ function Calendar(props) {
               )
             ) {
               // resetting all the items, filtering for the id of the item which was right-clicked
-              // and removing it from the rest of the array
+              // and removing it from the rest of Items.
               props.setItems(props.items.filter((x) => x.id !== item.id));
             } else {
               // Do nothing! Keep the time slot there if window.confirm is false
+              return;
             }
           },
         })}
@@ -202,7 +191,6 @@ function Calendar(props) {
       defaultTimeEnd={defaultTimeEnd}
       onItemMove={handleItemMove}
       onItemResize={handleItemResize}
-      // onItemDoubleClick={onHandleItemEdit}
     />
   );
 }

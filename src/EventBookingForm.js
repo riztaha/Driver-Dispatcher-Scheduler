@@ -59,6 +59,7 @@ function EventBookingForm(props) {
               currentItem.tip = description;
               currentItem.start = tempStart;
               currentItem.end = tempEnd;
+              // bug fixed: this is set as == and not ===, otherwise the color/type doesn't change.
               currentItem.bgColor =
                 type == 1 ? "#f17373" : type == 2 ? "#72ff72" : "#9c9cff";
 
@@ -72,8 +73,8 @@ function EventBookingForm(props) {
               }
             } else {
               // Do nothing!
+              return;
             }
-            return;
           } else {
             // console.log("props ====>", props);
             let newItem = [

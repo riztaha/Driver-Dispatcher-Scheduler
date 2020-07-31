@@ -172,6 +172,7 @@ function App() {
         return true;
       }
     });
+
     // console.log("driverBookings=====>", driverBookings);
     // console.log("data Duration form value ====>", dataDuration);
     let timeFrames = generateTimeframeBuckets(driverBookings);
@@ -213,6 +214,7 @@ function App() {
   };
 
   const getTypesOfBookings = (data) => {
+    // types can be found by their color in the calendar.
     // item.bgColor === "#f17373"
     //   ? "Pickup"
     //   : item.bgColor === "#72ff72"
@@ -257,29 +259,9 @@ function App() {
       timeFrames.push(moment(start).format("DD-MM-YYYY"));
       let newDate = start.setDate(start.getDate() + parseInt(dataDuration));
       start = new Date(newDate);
-
-      // let tmp = earliestStartDate; //plus dataDuration
-      // timeFrames.push(tmp);
     }
     timeFrames.push(moment(start).format("DD-MM-YYYY"));
 
-    // while (earliestStartDate < latestEndDate) {
-    //   let tmp = moment(earliestStartDate).add(parseInt(dataDuration), "days");
-    //   console.log("tmp ====> ", tmp._d);
-    //   timeFrames.push(tmp);
-    //   // earliestStartDate = tmp;
-
-    //   // function addDays(date, days) {
-    //   //   const copy = new Date(Number(date));
-    //   //   copy.setDate(date + days);
-    //   //   return copy;
-    //   // }
-    //   // addDays(earliestStartDate, dataDuration);
-    //   // console.log(addDays(earliestStartDate, dataDuration));
-
-    //   console.log("number of timeFrames ====>", timeFrames.length);
-    // }
-    // timeFrames.push(latestEndDate);
     return timeFrames;
   };
 
