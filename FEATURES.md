@@ -13,5 +13,14 @@
 - Access other months by cicking on the month currently in view
 - Download All Drivers' Schedules and information
 
+## To-Do
+- Minor Bug: Request overwrite when dragging event and clashing
+- GUI: Since an event can only be on one day, form field for entering should only allow for 1 day
+- GUI: Reset form after clicking Save
+- Data: Create more stats retrieval!!
+
+
+
+
 
 
