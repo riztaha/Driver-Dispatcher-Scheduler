@@ -13,6 +13,7 @@ Minor Bug present: An event can currently be clashed with another item if it is 
 ## Libraries and Packages
 
 - Create-React-App
+- Bootstrap (Theme/styling, https://www.npmjs.com/package/react-bootstrap)
 - Momentjs (for time handling, https://www.npmjs.com/package/moment)
 - React-Calendar-Timeline (https://www.npmjs.com/package/react-calendar-timeline)
 - Interactjs (Calendar resizing, https://www.npmjs.com/package/interactjs)
