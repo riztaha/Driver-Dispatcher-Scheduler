@@ -1,4 +1,5 @@
 ## Visit the project at: https://driver-scheduler.herokuapp.com/
+## Created by: Taha Rizvi
 
 <b>Directions:</b> <br />
 <b>Navigate Calendar:</b> Scroll left/right, Zoom in/out, or Click Date.<br />
@@ -6,6 +7,8 @@
 <b>Edit Event Title/Description:</b> Double-Click on Event, make desired changes, unhighlight Event.<br />
 <b>Overwrite Event:</b> Create a new event which overlaps the time/driver event.<br />
 <b>Delete Event:</b> Right-Click on Event.<br />
+ 
+Minor Bug present: An event can currently be clashed with another item if it is dragged over. Overwrite popup appears only when manually entering a new event.
 
 ## Available Scripts
 
