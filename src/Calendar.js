@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import moment from "moment";
+import { items } from "./App.js";
 
 import Timeline from "react-calendar-timeline";
 
@@ -38,7 +39,6 @@ function Calendar(props) {
         : item
     );
     props.setItems(bookings);
-
     console.log("Moved", itemId, dragTime, newGroupOrder);
   };
 
@@ -58,6 +58,21 @@ function Calendar(props) {
     );
 
     console.log("Resized", itemId, time, edge);
+  };
+
+  const onHandleItemEdit = (itemId, itemTitle, itemTip) => {
+    console.log(itemId, itemTitle, itemTip);
+    const { items } = props;
+    props.setItems(
+      items.map((item) =>
+        item.id === itemId
+          ? Object.assign({}, item, {
+              title: itemTitle ? itemTitle : item.title,
+              tip: itemTip ? itemTip : item.tip,
+            })
+          : item
+      )
+    );
   };
 
   //   Rendering the event
@@ -93,11 +108,39 @@ function Calendar(props) {
           },
           onDoubleClick: () => {
             console.log("on double click", item);
-            alert(`
+            if (
+              window.confirm(
+                `Would you like to EDIT the Location/Description?
                 Event information:
-                Location: ${item.title},
-                Description: ${item.tip},
-                Time: ${item.start} - ${item.end}`);
+                Location: ${item.title}\n
+                Description: ${item.tip},\n
+                Time: ${item.start} - ${item.end}`
+              )
+            );
+            {
+              // Receive new location/description
+              let newLoc = prompt("Location: ", `${item.title}`);
+              let newDesc = prompt("Description: ", `${item.tip}`);
+              // Now change the data
+              console.log(item.id);
+              if (
+                (newLoc && newLoc.length > 0) ||
+                (newDesc && newDesc.length > 0)
+              ) {
+                onHandleItemEdit(item.id, newLoc, newDesc);
+
+                // if (item.id === itemContext.id) {
+                //   console.log("item id matches");
+                // This will remove the item
+                // props.setItems(props.items.filter((x) => x.id !== item.id));
+
+                itemContext["title"] = newLoc;
+                itemContext["tip"] = newDesc;
+              } else {
+              }
+
+              // }
+            }
           },
           //   onContextMenu is right click functionality given from calendar library
           onContextMenu: () => {
@@ -107,9 +150,9 @@ function Calendar(props) {
             // Can add helper function to identify driver name based off item.group which is a number.
             if (
               window.confirm(
-                `Are you sure you want to delete this event?
-                Location: ${item.title},
-                Description: ${item.tip},
+                `WARNING: Are you sure you want to DELETE this event?
+                Location: ${item.title},\n
+                Description: ${item.tip},\n
                 Time: ${item.start} - ${item.end}
                 `
               )
@@ -159,6 +202,7 @@ function Calendar(props) {
       defaultTimeEnd={defaultTimeEnd}
       onItemMove={handleItemMove}
       onItemResize={handleItemResize}
+      // onItemDoubleClick={onHandleItemEdit}
     />
   );
 }

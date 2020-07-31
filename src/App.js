@@ -7,108 +7,11 @@ import moment from "moment";
 import { CSVLink } from "react-csv";
 import Background from "./background.jpg";
 
-let groups = [
-  { id: "1", title: "Michael Scott", bgColor: "#f9b87a" },
-  { id: "2", title: "Dwight Schrute", bgColor: "#f7d788" },
-  { id: "3", title: "Jim Halpert", bgColor: "#f7f38f" },
-];
-
 // to_do:
 // adding tasks: [] to each group obj
 //  this allows to then combine and display all the tasks related to group
 // let items = [..., groups[0].tasks, groups[1].tasks, groups[2].tasks]]
 // then when rendering, pass groups.tasks instead of items
-
-// Test Events
-let items = [
-  // Test events for Michael
-  {
-    bgColor: "#f17373",
-    start: moment("28 JUL 2020 09:30"),
-    end: moment("28 JUL 2020 12:30"),
-    group: 1,
-    id: "140",
-    title: "Test Pickup",
-    tip: "This is just a test pickup for Michael",
-  },
-  {
-    bgColor: "#9c9cff",
-    start: moment("28 JUL 2020 13:30"),
-    end: moment("28 JUL 2020 14:30"),
-    group: 1,
-    id: "141",
-    title: "Break time!",
-    tip: "This is just a test break for Michael",
-  },
-  {
-    bgColor: "#72ff72",
-    start: moment("28 JUL 2020 15:30"),
-    end: moment("28 JUL 2020 19:30"),
-    group: 1,
-    id: "142",
-    title: "Test Dropoff",
-    tip: "This is just a test dropoff for Michael",
-  },
-  // Test events for Dwight
-  {
-    bgColor: "#f17373",
-    start: moment("29 JUL 2020 09:30"),
-    end: moment("29 JUL 2020 12:30"),
-    group: 2,
-    id: "143",
-    title: "Test Pickup",
-    tip: "This is just a test pickup for Dwight",
-  },
-  {
-    bgColor: "#9c9cff",
-    start: moment("29 JUL 2020 13:30"),
-    end: moment("29 JUL 2020 14:30"),
-    group: 2,
-    id: "144",
-    title: "Break time!",
-    tip: "This is just a test break for Dwight",
-  },
-  {
-    bgColor: "#72ff72",
-    start: moment("29 JUL 2020 15:30"),
-    end: moment("29 JUL 2020 19:30"),
-    group: 2,
-    id: "145",
-    title: "Test Dropoff",
-    tip: "This is just a test dropoff for Dwight",
-  },
-  // Test events for Jim
-  {
-    bgColor: "#f17373",
-    start: moment("30 JUL 2020 09:30"),
-    end: moment("30 JUL 2020 12:30"),
-    group: 3,
-    id: "146",
-    title: "Test Pickup",
-    tip: "This is just a test pickup for Jim",
-  },
-  {
-    bgColor: "#9c9cff",
-    start: moment("30 JUL 2020 13:30"),
-    end: moment("30 JUL 2020 14:30"),
-    group: 3,
-    id: "147",
-    title: "Break time!",
-    tip: "This is just a test break for Jim",
-  },
-  {
-    bgColor: "#72ff72",
-    start: moment("30 JUL 2020 15:30"),
-    end: moment("30 JUL 2020 19:30"),
-    group: 3,
-    id: "148",
-    title: "Test Dropoff",
-    tip: "This is just a test dropoff for Jim",
-  },
-];
-
-let allDriversSchedule_CSV = [];
-let oneDriversSchedule_CSV = [];
 
 const sectionStyle = {
   width: "100%",
@@ -122,13 +25,110 @@ const sectionStyle = {
 };
 
 function App() {
+  // Test Events
+  let groups = [
+    { id: "1", title: "Michael Scott", bgColor: "#f9b87a" },
+    { id: "2", title: "Dwight Schrute", bgColor: "#f7d788" },
+    { id: "3", title: "Jim Halpert", bgColor: "#f7f38f" },
+  ];
+  let items = [
+    // Test events for Michael
+    {
+      bgColor: "#f17373",
+      start: moment("28 JUL 2020 09:30"),
+      end: moment("28 JUL 2020 12:30"),
+      group: 1,
+      id: "140",
+      title: "Test Pickup",
+      tip: "This is just a test pickup for Michael",
+    },
+    {
+      bgColor: "#9c9cff",
+      start: moment("28 JUL 2020 13:30"),
+      end: moment("28 JUL 2020 14:30"),
+      group: 1,
+      id: "141",
+      title: "Break time!",
+      tip: "This is just a test break for Michael",
+    },
+    {
+      bgColor: "#72ff72",
+      start: moment("28 JUL 2020 15:30"),
+      end: moment("28 JUL 2020 19:30"),
+      group: 1,
+      id: "142",
+      title: "Test Dropoff",
+      tip: "This is just a test dropoff for Michael",
+    },
+    // Test events for Dwight
+    {
+      bgColor: "#f17373",
+      start: moment("29 JUL 2020 09:30"),
+      end: moment("29 JUL 2020 12:30"),
+      group: 2,
+      id: "143",
+      title: "Test Pickup",
+      tip: "This is just a test pickup for Dwight",
+    },
+    {
+      bgColor: "#9c9cff",
+      start: moment("29 JUL 2020 13:30"),
+      end: moment("29 JUL 2020 14:30"),
+      group: 2,
+      id: "144",
+      title: "Break time!",
+      tip: "This is just a test break for Dwight",
+    },
+    {
+      bgColor: "#72ff72",
+      start: moment("29 JUL 2020 15:30"),
+      end: moment("29 JUL 2020 19:30"),
+      group: 2,
+      id: "145",
+      title: "Test Dropoff",
+      tip: "This is just a test dropoff for Dwight",
+    },
+    // Test events for Jim
+    {
+      bgColor: "#f17373",
+      start: moment("30 JUL 2020 09:30"),
+      end: moment("30 JUL 2020 12:30"),
+      group: 3,
+      id: "146",
+      title: "Test Pickup",
+      tip: "This is just a test pickup for Jim",
+    },
+    {
+      bgColor: "#9c9cff",
+      start: moment("30 JUL 2020 13:30"),
+      end: moment("30 JUL 2020 14:30"),
+      group: 3,
+      id: "147",
+      title: "Break time!",
+      tip: "This is just a test break for Jim",
+    },
+    {
+      bgColor: "#72ff72",
+      start: moment("30 JUL 2020 15:30"),
+      end: moment("30 JUL 2020 19:30"),
+      group: 3,
+      id: "148",
+      title: "Test Dropoff",
+      tip: "This is just a test dropoff for Jim",
+    },
+  ];
+
   let [item, setItem] = useState(items);
   // setGroup never updates because it is static, only 3 drivers for this app. Drivers do not need to be added/edited
   let [group, setGroup] = useState(groups);
   let [dataDriver, setDataDriver] = useState(1);
   let [dataDuration, setDataDuration] = useState(2);
 
+  let allDriversSchedule_CSV = [];
+  let oneDriversSchedule_CSV = [];
+
   const addBooking = (data) => {
+    console.log("adding booking");
     setItem(data);
     prepareCSVExportData(data);
     setItemsWithCSV(data);
@@ -165,7 +165,7 @@ function App() {
 
   const setItemsWithCSV = (data) => {
     oneDriversSchedule_CSV = [["Time-Frame", "Pickup", "Drop-off", "Other"]];
-    console.log("DATA =====>", data);
+    console.table(data);
     let driverBookings = data.filter((booking) => {
       let driver = dataDriver;
       if (booking.group == driver) {
@@ -310,6 +310,9 @@ function App() {
         Navigate Calendar: Scroll left/right, Zoom in/out, or Click Date.
         <br></br>
         Edit Event Duration/Time/Driver: Click on Event and Drag as desired.
+        <br></br>
+        Edit Event Title/Description: Double-Click on Event, make changes as
+        desired. Unhighlight Event.
         <br></br>
         Delete Event: Right-Click on Event.
       </div>
